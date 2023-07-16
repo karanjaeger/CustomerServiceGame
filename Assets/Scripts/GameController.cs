@@ -17,15 +17,27 @@ public class GameController : MonoBehaviour
     private int totalScore = 0;
     private GameObject[] buttons;
     private AudioSource audioSource;
+    private ObjectRandomizer objectRandomizer;
+    private int answerIndex = 0;
     [SerializeField] private AudioClip winAudio;
+    [SerializeField] private AudioClip finalWin;
     [SerializeField] private AudioClip loseAudio;
+    [SerializeField] private Image winImage;
+    [SerializeField] private Image loseImage;
+    [SerializeField] private Bridge bridge;
+    [SerializeField] private TMP_Text scoreText;
 
     private void Start()
     {
+        scoreText.text = totalScore.ToString();
+        objectRandomizer = GetComponent<ObjectRandomizer>();
+        winImage.enabled = false;
+        loseImage.enabled = false;
         audioSource = GetComponent<AudioSource>();
         buttons = GameObject.FindGameObjectsWithTag("Button");
         customerText = GameObject.FindGameObjectWithTag("Customer").GetComponent<TMP_Text>();
         customerText.text = textScriptableObject.customerTexts[customerTextIndex];
+        customerText.enabled = false;
         playerText = GameObject.FindGameObjectWithTag("Player").GetComponent<TMP_Text>();
         playerText.text = textScriptableObject.playerTexts[playerTextIndex];
     }
@@ -33,23 +45,60 @@ public class GameController : MonoBehaviour
 
     public void CheckAnswer(int optionsIndex)
     {
-
+        objectRandomizer.ShuffleObjects();
+        customerText.enabled = true; 
+        playerText.text = textScriptableObject.answers[answerIndex++];
         if (playerTextIndex < 8)
         {
             if (playerTextIndex == optionsIndex)
             {
                 totalScore++;
+                scoreText.text = totalScore.ToString();
                 StartCoroutine(IncrementQuestion(winAudio));
                 Debug.Log(totalScore);
             }
             else
             {
+                scoreText.text = totalScore.ToString();
                 StartCoroutine(IncrementQuestion(loseAudio));
             }
         }
         else
         {
-
+            StartCoroutine(LastText());
+            if(totalScore > 5)
+            {
+                if(playerTextIndex == optionsIndex)
+                {
+                    audioSource.clip = winAudio;                    
+                    audioSource.Play();
+                    totalScore++;
+                    scoreText.text = totalScore.ToString(); 
+                    Debug.Log("meh");
+                }
+                else
+                {
+                    audioSource.clip = loseAudio;
+                    audioSource.Play();
+                }
+                StartCoroutine(EndGameCall(true));
+            }
+            else
+            {
+                if (playerTextIndex == optionsIndex)
+                {
+                    totalScore++;
+                    scoreText.text = totalScore.ToString();
+                    audioSource.clip = winAudio;                    
+                    audioSource.Play();
+                }
+                else
+                {
+                    audioSource.clip = loseAudio;
+                    audioSource.Play();
+                }
+                StartCoroutine(EndGameCall(false));
+            }
         }
     }
 
@@ -81,11 +130,32 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private IEnumerator EndGameCall()
+    private IEnumerator EndGameCall(bool won)
     {
         ButtonControl(false);
-        yield return new WaitForSeconds(2);        
+        yield return new WaitForSeconds(2);
+        if(won)
+        {
+            audioSource.clip = finalWin;
+            audioSource.Play();
+            winImage.enabled = true;
+            yield return new WaitForSeconds(2);
+            bridge.TriggerWebCall("winScenario");
+        }
+        else
+        {
+            audioSource.clip = loseAudio;
+            audioSource.Play();
+            loseImage.enabled = true;
+            yield return new WaitForSeconds(2);
+            bridge.TriggerWebCall("failScenario");
+        }
+    }
 
+    private IEnumerator LastText()
+    {
+        customerText.text = textScriptableObject.customerTexts[9];
+        yield return new WaitForSeconds(1);
     }
 
 }

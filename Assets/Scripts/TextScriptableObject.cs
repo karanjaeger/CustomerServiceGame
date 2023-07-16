@@ -8,5 +8,6 @@ public class TextScriptableObject : ScriptableObject
 {
     public string[] playerTexts;
     public string[] customerTexts;
-    public string[] options;   
+    public string[] options;
+    public string[] answers;
 }

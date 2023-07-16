@@ -16,16 +16,20 @@ MonoBehaviour:
   - How can I ____ you?
   - Thank you for bringing this to our ________. We appreciate that.
   - I _______ understand your situation.Could you ______ tell more about that?
-  - I _______ understand your situation.Could you ______ tell more about that?
+  - I completely understand your situation.Could you ______ tell more about that?
   - That would _____ me, too.Our ________ for letting you go through this.
-  - That would _____ me, too.Our ________ for letting you go through this.
+  - That would upset me, too.Our ________ for letting you go through this.
   - We will surely help you on that.Your issue is now _____ down to the right team
     and will be ________ before this weekend.
-  - We will surely help you on that.Your issue is now _____ down to the right team
+  - We will surely help you on that.Your issue is now passed down to the right team
     and will be ________ before this weekend.
+  - Let me know if there is ________ else I can do.
   - Let me know if there is ________ else I can do.
   customerTexts:
   - Hi, my phone has been encountering some troublesome issues.
+  - Hi, my phone has been encountering some troublesome issues.
+  - I'm furious with your product! My phone has persistent issues and I demand a
+    prompt resolution!
   - I'm furious with your product! My phone has persistent issues and I demand a
     prompt resolution!
   - I'm experiencing significant overheating and rapid battery drain issues with
@@ -36,7 +40,6 @@ MonoBehaviour:
     it back in action?
   - I need my phone working before the weekend. How soon can you fix it up and get
     it back in action?
-  - Good
   - Good
   - No, thank you.
   options:
@@ -50,3 +53,16 @@ MonoBehaviour:
   - resolved
   - anything
   - reply
+  answers:
+  - How can I help you?
+  - Thank you for bringing this to our attention. We appreciate that.
+  - I completely understand your situation.Could you ______ tell more about that?
+  - I completely understand your situation.Could you please tell more about that?
+  - That would upset me, too.Our _________ for letting you go through this.
+  - That would upset me, too.Our apologies for letting you go through this.
+  - We will surely help you on that.Your issue is now passed down to the right team
+    and will be ________ before this weekend.
+  - We will surely help you on that.Your issue is now passed down to the right team
+    and will be resolved before this weekend.
+  - Let me know if there is anything else I can do.
+  - Let me know if there is anything else I can do.
